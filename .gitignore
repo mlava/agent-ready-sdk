@@ -1,0 +1,22 @@
+# JS
+node_modules/
+dist/
+*.tsbuildinfo
+.npm/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+build/
+*.egg-info/
+dist-python/
+.venv/
+venv/
+
+# Build outputs (python -m build writes to python/dist)
+python/dist/
+
+# OS / editor
+.DS_Store
+*.log

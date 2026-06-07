@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-ready-client"
+version = "0.1.0"
+description = "Official Python client SDK for the Agent Ready API — scan any URL for AI agent-readability (Vercel Agent Readability Spec, llmstxt.org, agent-protocol manifests)."
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Agent Ready" }]
+keywords = [
+  "agent-ready",
+  "agent-readability",
+  "llms.txt",
+  "mcp",
+  "ai-agents",
+  "sdk",
+  "aeo",
+  "geo",
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://agent-ready.dev"
+Documentation = "https://agent-ready.dev/docs/api"
+Repository = "https://github.com/mlava/agent-ready-sdk"
+Issues = "https://github.com/mlava/agent-ready-sdk/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agent_ready"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "README.md", "LICENSE"]

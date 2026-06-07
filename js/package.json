@@ -1,0 +1,54 @@
+{
+  "name": "agent-ready-client",
+  "version": "0.1.0",
+  "description": "Official JavaScript/TypeScript client SDK for the Agent Ready API — scan any URL for AI agent-readability (Vercel Agent Readability Spec, llmstxt.org, agent-protocol manifests).",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "agent-ready",
+    "agent-readability",
+    "llms.txt",
+    "mcp",
+    "ai-agents",
+    "sdk",
+    "client",
+    "vercel",
+    "scanner",
+    "aeo",
+    "geo"
+  ],
+  "homepage": "https://agent-ready.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlava/agent-ready-sdk.git",
+    "directory": "js"
+  },
+  "bugs": "https://github.com/mlava/agent-ready-sdk/issues",
+  "license": "MIT",
+  "author": "Agent Ready",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
