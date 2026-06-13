@@ -56,13 +56,25 @@ def test_scan_starts_then_polls(monkeypatch):
         [
             (200, {"id": "abc", "status": "running", "url": "u", "pollUrl": "/x"}),
             (200, {"id": "abc", "status": "running"}),
-            (200, {"id": "abc", "status": "completed", "vercelScore": 96}),
+            (
+                200,
+                {
+                    "id": "abc",
+                    "status": "completed",
+                    "vercelScore": 96,
+                    "percentile": 98,
+                    "corpusTotal": 1234,
+                },
+            ),
         ],
     )
     ar = AgentReady(api_key="ar_live_x")
     scan = ar.scan("https://example.com", poll_interval=0)
     assert scan["status"] == "completed"
     assert scan["vercelScore"] == 96
+    # Corpus benchmark passes through the typed response.
+    assert scan["percentile"] == 98
+    assert scan["corpusTotal"] == 1234
     assert calls[0].method == "POST"  # start_scan
     assert calls[1].method == "GET"  # first poll
     assert len(calls) == 3

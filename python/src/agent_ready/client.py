@@ -78,7 +78,15 @@ if TypedDict is not None:
         url: str
         checks: List[CheckResult]
 
-    class Scan(TypedDict, total=False):
+    class _Benchmark(TypedDict, total=False):
+        # Corpus benchmark — the share of scanned sites this score beats, and
+        # the corpus size it's measured against. Null/absent on a thin corpus.
+        # Optional (``total=False``) so mixing it into a strict TypedDict keeps
+        # these keys non-required.
+        percentile: Optional[int]
+        corpusTotal: Optional[int]
+
+    class Scan(_Benchmark, total=False):
         id: str
         rootUrl: str
         status: str  # "running" | "completed" | "failed"
@@ -100,7 +108,7 @@ if TypedDict is not None:
         url: str
         pollUrl: str
 
-    class ScanSummary(TypedDict):
+    class ScanSummary(_Benchmark):
         id: str
         shareToken: str
         domain: str

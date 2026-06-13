@@ -62,6 +62,13 @@ export interface Scan {
   llmstxtChecks: CheckResult[];
   pageResults: { url: string; checks: CheckResult[] }[];
   shareToken: string;
+  /**
+   * Corpus benchmark: the share of scanned sites this score beats, and the
+   * number of sites it's measured against. Both `null` (or absent on an older
+   * API) when the corpus is too thin to quote.
+   */
+  percentile?: number | null;
+  corpusTotal?: number | null;
 }
 
 export interface StartScanResponse {
@@ -81,6 +88,8 @@ export interface ScanSummary {
   llmstxtScore: number | null;
   pagesScanned: number | null;
   createdAt: string;
+  percentile?: number | null;
+  corpusTotal?: number | null;
 }
 
 export interface ScanListResponse {

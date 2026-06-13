@@ -37,12 +37,15 @@ describe("AgentReady", () => {
     const getCalls = stubFetch([
       [200, { id: "abc", status: "running", url: "https://example.com", pollUrl: "/x" }],
       [200, { id: "abc", status: "running" }],
-      [200, { id: "abc", status: "completed", vercelScore: 96, vercelRating: "excellent" }],
+      [200, { id: "abc", status: "completed", vercelScore: 96, vercelRating: "excellent", percentile: 98, corpusTotal: 1234 }],
     ]);
     const ar = new AgentReady({ apiKey: "ar_live_x" });
     const scan = await ar.scan("https://example.com", { pollIntervalMs: 0 });
     expect(scan.status).toBe("completed");
     expect(scan.vercelScore).toBe(96);
+    // Corpus benchmark passes through the typed response.
+    expect(scan.percentile).toBe(98);
+    expect(scan.corpusTotal).toBe(1234);
     const calls = getCalls();
     expect(calls[0]![1].method).toBe("POST"); // startScan
     expect(calls[0]![0]).toContain("/api/v1/scans");
