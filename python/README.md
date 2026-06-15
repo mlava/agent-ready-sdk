@@ -54,6 +54,7 @@ AgentReady(api_key=None, base_url="https://agent-ready.dev", timeout=30.0)
 | `get_scan(id)` | `Scan` | Fetch a scan (running or finished). |
 | `list_scans(limit=None, cursor=None)` | `ScanListResponse` | Your scans, newest first. |
 | `ask(query, item_type=None, mode=None)` | `dict` | NLWeb doc search. **No key required.** |
+| `scan_mcp(endpoint)` | `McpScanResponse` | Grade a live MCP server (tools/resources/prompts). **No key required.** |
 
 ### Fire-and-forget + poll later
 

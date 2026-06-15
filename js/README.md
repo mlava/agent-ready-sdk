@@ -55,6 +55,7 @@ new AgentReady({ apiKey?, baseUrl?, timeoutMs? })
 | `getScan(id)` | `Promise<Scan>` | Fetch a scan (running or finished). |
 | `listScans({ limit?, cursor? })` | `Promise<ScanListResponse>` | Your scans, newest first. |
 | `ask(query, { itemType?, mode? })` | `Promise<AskResponse>` | NLWeb doc search. **No key required.** |
+| `scanMcp(endpoint)` | `Promise<McpScanResponse>` | Grade a live MCP server (tools/resources/prompts). **No key required.** |
 
 ### Fire-and-forget + poll later
 

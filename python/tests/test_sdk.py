@@ -106,3 +106,26 @@ def test_ask_no_key_passes_envelope(monkeypatch):
     ar = AgentReady(api_key="")
     res = ar.ask("what is llms.txt?")
     assert res["_meta"]["code"] == "NO_RESULTS"
+
+
+def test_scan_mcp_public(monkeypatch):
+    calls = patch_urlopen(
+        monkeypatch,
+        [
+            (
+                201,
+                {
+                    "scan": {"id": "m1", "mcpScore": 92, "mcpRating": "excellent"},
+                    "shareUrl": "/mcp-server-scanner/m1",
+                },
+            )
+        ],
+    )
+    ar = AgentReady(api_key="")  # public — no key required
+    res = ar.scan_mcp("https://mcp.example.com/mcp")
+    assert res["scan"]["mcpScore"] == 92
+    assert res["shareUrl"] == "/mcp-server-scanner/m1"
+    req = calls[0]
+    assert req.full_url == "https://agent-ready.dev/api/v1/scan/mcp"
+    assert req.method == "POST"
+    assert json.loads(req.data) == {"endpoint": "https://mcp.example.com/mcp"}

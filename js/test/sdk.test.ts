@@ -33,6 +33,22 @@ describe("AgentReady", () => {
     });
   });
 
+  it("scanMcp() posts the endpoint with no key required", async () => {
+    const getCalls = stubFetch([
+      [201, { scan: { id: "m1", mcpScore: 92, mcpRating: "excellent" }, shareUrl: "/mcp-server-scanner/m1" }],
+    ]);
+    const ar = new AgentReady({ apiKey: "" });
+    const res = await ar.scanMcp("https://mcp.example.com/mcp");
+    expect(res.scan.mcpScore).toBe(92);
+    expect(res.shareUrl).toBe("/mcp-server-scanner/m1");
+    const [url, init] = getCalls()[0]!;
+    expect(url).toBe("https://agent-ready.dev/api/v1/scan/mcp");
+    expect(init.method).toBe("POST");
+    expect(JSON.parse(init.body as string)).toEqual({
+      endpoint: "https://mcp.example.com/mcp",
+    });
+  });
+
   it("scan() starts then polls getScan until it leaves 'running'", async () => {
     const getCalls = stubFetch([
       [200, { id: "abc", status: "running", url: "https://example.com", pollUrl: "/x" }],

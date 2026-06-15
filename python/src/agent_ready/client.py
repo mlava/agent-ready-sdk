@@ -37,6 +37,8 @@ __all__ = [
     "ScanSummary",
     "ScanListResponse",
     "StartScanResponse",
+    "McpScan",
+    "McpScanResponse",
 ]
 
 DEFAULT_BASE_URL = "https://agent-ready.dev"
@@ -122,12 +124,33 @@ if TypedDict is not None:
     class ScanListResponse(TypedDict, total=False):
         data: List[ScanSummary]
         nextCursor: str
+
+    class McpScan(TypedDict, total=False):
+        id: str
+        shareToken: str
+        endpoint: str
+        host: str
+        status: str  # "completed" | "failed"
+        mcpScore: int
+        mcpRating: str
+        serverName: Optional[str]
+        serverVersion: Optional[str]
+        toolCount: Optional[int]
+        resourceCount: Optional[int]
+        promptCount: Optional[int]
+        checks: List[CheckResult]
+
+    class McpScanResponse(TypedDict):
+        scan: McpScan
+        shareUrl: str
 else:  # pragma: no cover - typing fallback for very old runtimes
     CheckResult = Dict[str, Any]  # type: ignore[misc,assignment]
     Scan = Dict[str, Any]  # type: ignore[misc,assignment]
     StartScanResponse = Dict[str, Any]  # type: ignore[misc,assignment]
     ScanSummary = Dict[str, Any]  # type: ignore[misc,assignment]
     ScanListResponse = Dict[str, Any]  # type: ignore[misc,assignment]
+    McpScan = Dict[str, Any]  # type: ignore[misc,assignment]
+    McpScanResponse = Dict[str, Any]  # type: ignore[misc,assignment]
 
 
 class AgentReady:
@@ -220,6 +243,22 @@ class AgentReady:
             body=body,
             require_key=False,
             pass_envelope_on_error=True,
+        )
+
+    def scan_mcp(self, endpoint: str) -> "McpScanResponse":
+        """Scan a live, remotely-hosted MCP server.
+
+        Connects over Streamable HTTP and grades the server's tools, resources,
+        and prompts against MCP best practices, returning a weighted
+        ``mcpScore`` (0–100) plus per-check findings. Synchronous (no polling).
+        Public — no API key required. Remote http(s) endpoints only. A
+        standalone tool: its score is independent of the site scan score.
+        """
+        return self._request(
+            "POST",
+            "/api/v1/scan/mcp",
+            body={"endpoint": endpoint},
+            require_key=False,
         )
 
     # ---- transport ----------------------------------------------------------

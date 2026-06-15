@@ -97,6 +97,28 @@ export interface ScanListResponse {
   nextCursor?: string;
 }
 
+/** A live MCP server scan (from {@link AgentReady.scanMcp}). */
+export interface McpScan {
+  id: string;
+  shareToken: string;
+  endpoint: string;
+  host: string;
+  status: "completed" | "failed";
+  mcpScore: number;
+  mcpRating: VercelRating;
+  serverName: string | null;
+  serverVersion: string | null;
+  toolCount: number | null;
+  resourceCount: number | null;
+  promptCount: number | null;
+  checks: CheckResult[];
+}
+
+export interface McpScanResponse {
+  scan: McpScan;
+  shareUrl: string;
+}
+
 /** NLWeb `/ask` returns a Schema.org `_meta` envelope for both hits and misses. */
 export type AskResponse = Record<string, unknown>;
 
@@ -230,6 +252,20 @@ export class AgentReady {
       body,
       requireKey: false,
       passEnvelopeOnError: true,
+    });
+  }
+
+  /**
+   * Scan a live, remotely-hosted MCP server: connect over Streamable HTTP and
+   * grade its tools, resources, and prompts against MCP best practices.
+   * Returns a weighted `mcpScore` (0–100) plus per-check findings. Synchronous
+   * (no polling). Public — no API key required. Remote http(s) endpoints only.
+   * This is a standalone tool; its score is independent of the site scan score.
+   */
+  async scanMcp(endpoint: string): Promise<McpScanResponse> {
+    return this.request<McpScanResponse>("POST", "/api/v1/scan/mcp", {
+      body: { endpoint },
+      requireKey: false,
     });
   }
 
