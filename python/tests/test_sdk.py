@@ -62,6 +62,8 @@ def test_scan_starts_then_polls(monkeypatch):
                     "id": "abc",
                     "status": "completed",
                     "vercelScore": 96,
+                    "llmstxtScore": 100,
+                    "accessibilityScore": 88,
                     "percentile": 98,
                     "corpusTotal": 1234,
                 },
@@ -72,6 +74,7 @@ def test_scan_starts_then_polls(monkeypatch):
     scan = ar.scan("https://example.com", poll_interval=0)
     assert scan["status"] == "completed"
     assert scan["vercelScore"] == 96
+    assert scan["accessibilityScore"] == 88
     # Corpus benchmark passes through the typed response.
     assert scan["percentile"] == 98
     assert scan["corpusTotal"] == 1234

@@ -99,6 +99,7 @@ if TypedDict is not None:
         vercelScore: int
         vercelRating: str
         llmstxtScore: int
+        accessibilityScore: Optional[int]
         siteChecks: List[CheckResult]
         llmstxtChecks: List[CheckResult]
         pageResults: List[_PageResult]
@@ -118,6 +119,7 @@ if TypedDict is not None:
         vercelScore: Optional[int]
         vercelRating: Optional[str]
         llmstxtScore: Optional[int]
+        accessibilityScore: Optional[int]
         pagesScanned: Optional[int]
         createdAt: str
 
