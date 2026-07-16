@@ -13,7 +13,7 @@ from .client import (
     StartScanResponse,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.3.1"
 
 __all__ = [
     "AgentReady",
