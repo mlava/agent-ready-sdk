@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agent-ready-client"
-version = "0.3.0"
+version = "0.3.1"
 description = "Official Python client SDK for the Agent Ready API — scan any URL for AI agent-readability (Vercel Agent Readability Spec, llmstxt.org, agent-protocol manifests)."
 readme = "README.md"
 requires-python = ">=3.8"
